@@ -9,12 +9,12 @@
     tools:showIn="@layout/activity_scrolling">
 
     <LinearLayout
-        android:verticalScrollbarPosition="right"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#d98e8b81"
-        android:id="@+id/linear">
+        android:background="#fff"
+        android:id="@+id/linear"
+        >
 
     </LinearLayout>
 

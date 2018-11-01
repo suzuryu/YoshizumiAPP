@@ -8,8 +8,8 @@ public class TownData
     private int     stationCount;
     private Double  crimePer;
     private int     population;
-    private Double x;
-    private Double y;
+    private Double  x;
+    private Double  y;
 
     TownData(){
         this.cityName = "NO NAME";
@@ -20,6 +20,14 @@ public class TownData
         this.population = 0;
         this.x = 0.0;
         this.y = 0.0;
+    }
+
+    public Double getX() {
+        return x;
+    }
+
+    public Double getY() {
+        return y;
     }
 
     public void setX(Double x) {

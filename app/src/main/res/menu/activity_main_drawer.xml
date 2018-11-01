@@ -20,5 +20,9 @@
             android:id="@+id/school"
             android:title="学校"
             app:showAsAction="never" />
+        <item
+            android:id="@+id/crime"
+            android:title="犯罪発生率"
+            app:showAsAction="never" />
     </group>
 </menu>

@@ -1,12 +1,25 @@
 package com.example.yoshizumiapp;
 
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.util.AttributeSet;
 import android.view.View;
+
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,11 +33,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
-    //private GoogleMap mMap;
+    private GoogleMap mMap;
     private SQLiteManager DBManager;
     private TownNameListAdapter myAdapter;
     private SharedPreferences sharedPreferences;
@@ -32,6 +46,8 @@ public class MainActivity extends AppCompatActivity
     private final String preName = "MAIN_SETTING";
     private final String dataBoolTag = "dataBPT";
     private boolean isFirstTime;
+    private double x = 135.5;
+    private double y = 35.5;
 
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
@@ -46,6 +62,8 @@ public class MainActivity extends AppCompatActivity
                     String.valueOf(td.getCrimePer()),
                     String.valueOf(td.getPopulation()),
             };
+            x = td.getX();
+            y = td.getY();
 
             Intent intent = new Intent(getApplication(), ScrollingActivity.class);
             intent.putExtra("MainData", data);
@@ -64,14 +82,11 @@ public class MainActivity extends AppCompatActivity
 
 //マップ表示
         MapFragment mapFragment = MapFragment.newInstance();
-
         // MapViewをMapFragmentに変更する
-        FragmentTransaction fragmentTransaction =
-                getFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.mapView2, mapFragment);
         fragmentTransaction.commit();
 
-        MapView map = new MapView(this);
 //ここまでマップ表示
 //ナビゲーション
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -183,10 +198,23 @@ public class MainActivity extends AppCompatActivity
                 }
                 myAdapter.notifyDataSetChanged();
                 return true;
+            case R.id.crime:
+                item.setChecked(!item.isChecked());
+                Toast.makeText(this,"犯罪発生率の低い町",Toast.LENGTH_SHORT).show();
+                townDatas = DBManager.queryByHighOrLowTop30("crimePer", "low");
+                myAdapter.removeListAllData();
+                myAdapter.clear();
+                for(TownData td: townDatas){
+                    myAdapter.add(td);
+                }
+                myAdapter.notifyDataSetChanged();
+                return true;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

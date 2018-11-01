@@ -3,6 +3,7 @@ package com.example.yoshizumiapp;
 import android.annotation.TargetApi;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
@@ -13,7 +14,7 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-@TargetApi(21)
+@TargetApi(26)
 public class ScrollingActivity extends AppCompatActivity {
 
     // ひとつひとつのテーブルデータをレイアウトに追加していく
@@ -22,32 +23,24 @@ public class ScrollingActivity extends AppCompatActivity {
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linear);
 
         int margin_size = 10;
-        int padding_size = 20;
         TextView data_text = new TextView(this);
         LinearLayout vert_linear = new LinearLayout(this);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        if(index == 0){
-            layoutParams.setMargins(margin_size, margin_size, margin_size, 0);
-            vert_linear.setBackground(getDrawable(R.drawable.shape_rounded_top_corner));
-        }else if(index == datas.length - 1){
-            layoutParams.setMargins(margin_size, 0, margin_size, margin_size);
-            vert_linear.setBackground(getDrawable(R.drawable.shape_rounded_bottom_corner));
-        }
-        else {
-            layoutParams.setMargins(margin_size, 0, margin_size, 0);
-            vert_linear.setBackground(getDrawable(R.drawable.fradme_style));
-        }
+//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
+        layoutParams.setMargins(0, 10, 0, 10);
 
         vert_linear.setOrientation(LinearLayout.HORIZONTAL);
-        vert_linear.setPadding(padding_size, padding_size, padding_size, padding_size);
         vert_linear.setLayoutParams(layoutParams);
         vert_linear.setGravity(Gravity.CENTER);
+        vert_linear.setBackgroundColor(0xff0000);
+
+        //data_text.setElevation(10);
 
         data_text.setText(data[0] + " : " + data[1]);
         data_text.setTextSize(32);
         data_text.setGravity(Gravity.CENTER);
+        data_text.setLayoutParams(layoutParams);
 
         vert_linear.addView(data_text);
         linearLayout.addView(vert_linear);
