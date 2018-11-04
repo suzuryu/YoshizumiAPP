@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity
 
             LatLng sales = new LatLng(td.getX(), td.getY());
 
+            mMarker.remove();
             mMap.addMarker(new MarkerOptions().position(sales).title("Marker " + td.getPrefecture() + td.getCityName()));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sales, 8));
 
