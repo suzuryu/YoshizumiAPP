@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
             LatLng sales = new LatLng(td.getX(), td.getY());
 
             mMarker.remove();
-            mMap.addMarker(new MarkerOptions().position(sales).title("Marker " + td.getPrefecture() + td.getCityName()));
+            mMarker = mMap.addMarker(new MarkerOptions().position(sales).title("Marker " + td.getPrefecture() + td.getCityName()));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sales, 8));
 
             Intent intent = new Intent(getApplication(), ScrollingActivity.class);
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity
                 mMap = googleMap;
 
                 LatLng sales = new LatLng(35.6049484, 139.3587469);
-                mMap.addMarker(new MarkerOptions().position(sales).title("Marker in Salesio-SP"));
+                mMarker = mMap.addMarker(new MarkerOptions().position(sales).title("Marker in Salesio-SP"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sales, 8));
             }
         });
