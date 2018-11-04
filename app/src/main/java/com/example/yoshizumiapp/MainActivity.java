@@ -1,29 +1,18 @@
 package com.example.yoshizumiapp;
 
-import android.annotation.TargetApi;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.vision.text.Line;
 
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,12 +23,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -72,9 +59,8 @@ public class MainActivity extends AppCompatActivity
 
             LatLng sales = new LatLng(td.getX(), td.getY());
 
-            mMarker.remove();
-            mMarker = mMap.addMarker(new MarkerOptions().position(sales).title("Marker " + td.getPrefecture() + td.getCityName()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(sales));
+            mMap.addMarker(new MarkerOptions().position(sales).title("Marker " + td.getPrefecture() + td.getCityName()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sales, 8));
 
             Intent intent = new Intent(getApplication(), ScrollingActivity.class);
             intent.putExtra("MainData", data);
@@ -104,18 +90,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
-                mMap.setMinZoomPreference(8);
+
                 LatLng sales = new LatLng(35.6049484, 139.3587469);
-                mMarker = mMap.addMarker(new MarkerOptions().position(sales).title("Marker in Salesio-SP"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(sales));
+                mMap.addMarker(new MarkerOptions().position(sales).title("Marker in Salesio-SP"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sales, 8));
             }
         });
-
-//            LinearLayout linearLayout = findViewById(R.id.map_linear);
-//            View view = (View)findViewById(R.id.map);
-//            linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 250));
-//            linearLayout.addView(view);
-
 
 //ここまでマップ表示
 //ナビゲーション
