@@ -1,49 +1,55 @@
 package com.example.yoshizumiapp;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.transition.Slide;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.zip.Inflater;
+
 @TargetApi(26)
 public class ScrollingActivity extends AppCompatActivity {
-
     // ひとつひとつのテーブルデータをレイアウトに追加していく
     private void addData2View(String[][] datas, int index){
         String[] data = datas[index];
-        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linear);
 
         int margin_size = 10;
         TextView data_text = new TextView(this);
         LinearLayout vert_linear = new LinearLayout(this);
 
-//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
-        layoutParams.setMargins(0, 10, 0, 10);
+        layoutParams.setMargins(0, 0, 0, margin_size);
 
-        vert_linear.setOrientation(LinearLayout.HORIZONTAL);
-        vert_linear.setLayoutParams(layoutParams);
-        vert_linear.setGravity(Gravity.CENTER);
-        vert_linear.setBackgroundColor(0xff0000);
+//        vert_linear.setOrientation(LinearLayout.HORIZONTAL);
+//        vert_linear.setLayoutParams(layoutParams);
+//        vert_linear.setGravity(Gravity.CENTER);
+//        vert_linear.setBackgroundColor(0xff0000);
 
         //data_text.setElevation(10);
 
         data_text.setText(data[0] + " : " + data[1]);
         data_text.setTextSize(32);
         data_text.setGravity(Gravity.CENTER);
+        data_text.setBackgroundColor(0xffffff);
         data_text.setLayoutParams(layoutParams);
 
-        vert_linear.addView(data_text);
-        linearLayout.addView(vert_linear);
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linear);
+        linearLayout.addView(data_text);
+
+//        vert_linear.addView(data_text);
+//        linearLayout.addView(vert_linear);
     }
 
     //　テーブルデータの内容を設定
@@ -67,8 +73,8 @@ public class ScrollingActivity extends AppCompatActivity {
         datas[2][0] = "犯罪発生率";
         datas[3][0] = "人口";
 
-        datas[0][1] = dataFromMain[1] + "つ";
-        datas[1][1] = dataFromMain[2] + "つ";
+        datas[0][1] = dataFromMain[1] + "個";
+        datas[1][1] = dataFromMain[2] + "個";
         datas[2][1] = dataFromMain[3] + "%";
         datas[3][1] = dataFromMain[4] + "人";
         // add data to view list

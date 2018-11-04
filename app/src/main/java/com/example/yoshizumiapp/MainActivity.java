@@ -1,5 +1,7 @@
 package com.example.yoshizumiapp;
 
+import android.annotation.TargetApi;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -18,7 +21,9 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.vision.text.Line;
 
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,6 +34,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -39,15 +45,16 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     private GoogleMap mMap;
+    private Marker mMarker;
     private SQLiteManager DBManager;
     private TownNameListAdapter myAdapter;
+
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private final String preName = "MAIN_SETTING";
     private final String dataBoolTag = "dataBPT";
     private boolean isFirstTime;
-    private double x = 135.5;
-    private double y = 35.5;
+
 
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
@@ -56,20 +63,25 @@ public class MainActivity extends AppCompatActivity
             TownData td = (TownData)listView.getItemAtPosition(i);
 
             String[] data = {
-                    td.getPrefecture()+td.getCityName(),
+                    td.getPrefecture() + td.getCityName(),
                     String.valueOf(td.getSchoolCount()),
                     String.valueOf(td.getStationCount()),
                     String.valueOf(td.getCrimePer()),
                     String.valueOf(td.getPopulation()),
             };
-            x = td.getX();
-            y = td.getY();
+
+            LatLng sales = new LatLng(td.getX(), td.getY());
+
+            mMarker.remove();
+            mMarker = mMap.addMarker(new MarkerOptions().position(sales).title("Marker " + td.getPrefecture() + td.getCityName()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(sales));
 
             Intent intent = new Intent(getApplication(), ScrollingActivity.class);
             intent.putExtra("MainData", data);
             startActivity(intent);
         }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,17 +93,34 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 //マップ表示
-        MapFragment mapFragment = MapFragment.newInstance();
+        final MapFragment mapFragment = MapFragment.newInstance();
+
         // MapViewをMapFragmentに変更する
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.mapView2, mapFragment);
         fragmentTransaction.commit();
 
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                mMap = googleMap;
+                mMap.setMinZoomPreference(8);
+                LatLng sales = new LatLng(35.6049484, 139.3587469);
+                mMarker = mMap.addMarker(new MarkerOptions().position(sales).title("Marker in Salesio-SP"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(sales));
+            }
+        });
+
+//            LinearLayout linearLayout = findViewById(R.id.map_linear);
+//            View view = (View)findViewById(R.id.map);
+//            linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 250));
+//            linearLayout.addView(view);
+
+
 //ここまでマップ表示
 //ナビゲーション
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
