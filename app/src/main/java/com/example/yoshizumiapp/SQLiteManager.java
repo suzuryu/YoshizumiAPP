@@ -75,16 +75,16 @@ public class SQLiteManager {
         return datas;
     }
 
-    public TownData queryByCityName(String cityName){
-        String[] selectionArgs = {cityName};
+    public ArrayList<TownData> queryByCityName30(String cityName){
+        String[] selectionArgs = {"%" + cityName + "%"};
         try {
-            Cursor c = this.getRDatabase().query(tableName, null, "cityName = ?", selectionArgs, null, null, null);
-            return townDataFromCursor(c);
+            Cursor c = this.getRDatabase().query(tableName, null, "cityName like ?", selectionArgs, null, null, null);
+            return townDataFromCursor30(c);
 
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return new TownData();
+        return new ArrayList<TownData>();
     }
 
     public ArrayList<TownData> queryByHighOrLowTop30(String target,String highOrLow){

@@ -157,6 +157,17 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            /*
+                cityName <- textBox
+                townDatas =  DBManager.queryByCityName30(cityName);
+                myAdapter.removeListAllData();
+                myAdapter.clear();
+                for(TownData td: townDatas){
+                    myAdapter.add(td);
+                }
+                myAdapter.notifyDataSetChanged();
+
+             */
             return true;
         }
 
