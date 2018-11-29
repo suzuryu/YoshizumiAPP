@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 //ここまでナビゲーション
 
-        // 初回のみデーターベース作成
+        // 初回のみjsonファイルからデーターベース作成を行う
         sharedPreferences = getSharedPreferences(preName, MODE_PRIVATE);
         isFirstTime = sharedPreferences.getBoolean(dataBoolTag, true);
         editor = sharedPreferences.edit();
@@ -156,18 +156,17 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        /* 検索機能予定地 */
         if (id == R.id.action_settings) {
             /*
-                cityName <- textBox
-                townDatas =  DBManager.queryByCityName30(cityName);
+                townDatas = DBManager.queryByCityName30(cityName);
                 myAdapter.removeListAllData();
                 myAdapter.clear();
                 for(TownData td: townDatas){
                     myAdapter.add(td);
                 }
                 myAdapter.notifyDataSetChanged();
-
-             */
+            */
             return true;
         }
 

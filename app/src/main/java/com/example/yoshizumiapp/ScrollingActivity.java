@@ -1,11 +1,9 @@
 package com.example.yoshizumiapp;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
@@ -85,6 +83,7 @@ public class ScrollingActivity extends AppCompatActivity {
         }
     }
 
+    // レーダーチャートのレイアウト設定
     private void setRadarChart(){
         chart = findViewById(R.id.radarChart);
         chart.getDescription().setEnabled(false);
@@ -127,6 +126,7 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
     /* TODO: パラメータいい感じにする */
+    /* レーダーチャートのデータ設定 */
     private void setData(){
         String[] dataFromMain = getIntent().getExtras().getStringArray("MainData");
         /* データの正規化する必要あり */
