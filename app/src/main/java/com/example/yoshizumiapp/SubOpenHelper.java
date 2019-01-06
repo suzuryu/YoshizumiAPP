@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class SubOpenHelper extends SQLiteOpenHelper {
     private final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE cityTable(_id INTEGER PRIMARY KEY, cityName TEXT, prefName TEXT, population INTEGER,"
+            "CREATE TABLE cityTable(_id INTEGER PRIMARY KEY, cityName TEXT, prefName TEXT,  menseki DOUBLE, population INTEGER,"
             +"schoolCount INTEGER, stationCount INTEGER, crimePer DOUBLE, x DOUBLE, y DOUBLE);";
 
     public SubOpenHelper(Context c, String dbName, int version){

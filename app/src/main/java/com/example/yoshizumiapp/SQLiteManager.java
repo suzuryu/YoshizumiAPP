@@ -18,7 +18,7 @@ public class SQLiteManager {
 
     SQLiteManager(Context c) {
         this.context = c;
-        this.subHelper = new SubOpenHelper(context,  dbName, 7);
+        this.subHelper = new SubOpenHelper(context,  dbName, 11);
     }
 
     private  SQLiteDatabase getWRDatabase(){
@@ -39,6 +39,7 @@ public class SQLiteManager {
         if(c.moveToFirst()){
             td.setCityName(c.getString(c.getColumnIndex("cityName")));
             td.setPrefecture(c.getString(c.getColumnIndex("prefName")));
+            td.setMenseki(c.getDouble(c.getColumnIndex("menseki")));
             td.setPopulation(c.getInt(c.getColumnIndex("population")));
             td.setSchoolCount(c.getInt(c.getColumnIndex("schoolCount")));
             td.setStationCount(c.getInt(c.getColumnIndex("stationCount")));
@@ -59,6 +60,7 @@ public class SQLiteManager {
             TownData td = new TownData();
             td.setCityName(c.getString(c.getColumnIndex("cityName")));
             td.setPrefecture(c.getString(c.getColumnIndex("prefName")));
+            td.setMenseki(c.getDouble(c.getColumnIndex("menseki")));
             td.setPopulation(c.getInt(c.getColumnIndex("population")));
             td.setSchoolCount(c.getInt(c.getColumnIndex("schoolCount")));
             td.setStationCount(c.getInt(c.getColumnIndex("stationCount")));
@@ -75,6 +77,9 @@ public class SQLiteManager {
         return datas;
     }
 
+    /*
+        検索機能用のSQLクエリ
+     */
     public ArrayList<TownData> queryByCityName30(String cityName){
         String[] selectionArgs = {"%" + cityName + "%"};
         try {

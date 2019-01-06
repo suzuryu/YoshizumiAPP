@@ -8,6 +8,7 @@ public class TownData
     private int     stationCount;
     private Double  crimePer;
     private int     population;
+    private Double  menseki;
     private Double  x;
     private Double  y;
 
@@ -18,8 +19,17 @@ public class TownData
         this.stationCount = 0;
         this.crimePer = 0.0;
         this.population = 0;
+        this.menseki = 0.0;
         this.x = 0.0;
         this.y = 0.0;
+    }
+
+    public Double getMenseki() {
+        return menseki;
+    }
+
+    public void setMenseki(Double menseki) {
+        this.menseki = menseki;
     }
 
     public Double getX() {

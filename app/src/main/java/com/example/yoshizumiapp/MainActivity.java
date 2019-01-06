@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity
 
             String[] data = {
                     td.getPrefecture() + td.getCityName(),
+                    String.valueOf(td.getMenseki()),
                     String.valueOf(td.getSchoolCount()),
                     String.valueOf(td.getStationCount()),
                     String.valueOf(td.getCrimePer()),
@@ -116,7 +117,8 @@ public class MainActivity extends AppCompatActivity
         if(isFirstTime) {
             try {
                 JsonHelper jsonHelper = new JsonHelper(this.DBManager);
-                jsonHelper.readJson(this.getAssets().open("cityData.json"));
+                jsonHelper.readJson(this.getAssets().open("cityData2.json"));
+
             }catch (Exception e){
                 e.printStackTrace();
             }

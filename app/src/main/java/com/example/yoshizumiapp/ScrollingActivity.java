@@ -73,10 +73,10 @@ public class ScrollingActivity extends AppCompatActivity {
         datas[2][0] = "犯罪発生率";
         datas[3][0] = "人口";
 
-        datas[0][1] = dataFromMain[1] + "個";
-        datas[1][1] = dataFromMain[2] + "個";
-        datas[2][1] = dataFromMain[3] + "%";
-        datas[3][1] = dataFromMain[4] + "人";
+        datas[0][1] = dataFromMain[2] + "個";
+        datas[1][1] = dataFromMain[3] + "個";
+        datas[2][1] = dataFromMain[4] + "%";
+        datas[3][1] = dataFromMain[5] + "人";
         // add data to view list
         for(int i=0;i<datas.length;i++){
             addData2View(datas,i);
@@ -115,7 +115,7 @@ public class ScrollingActivity extends AppCompatActivity {
         yAxis.setLabelCount(4, false);
         yAxis.setTextSize(9f);
         yAxis.setAxisMinimum(0f);
-        yAxis.setAxisMaximum(80f);
+        yAxis.setAxisMaximum(5f);
         yAxis.setDrawLabels(false);
 
         Legend l = chart.getLegend();
@@ -129,9 +129,6 @@ public class ScrollingActivity extends AppCompatActivity {
     /* レーダーチャートのデータ設定 */
     private void setData(){
         String[] dataFromMain = getIntent().getExtras().getStringArray("MainData");
-        /* データの正規化する必要あり */
-        float mul = 100;
-        float min = 0;
         int cnt = 4;
 
         ArrayList<RadarEntry> entries1 = new ArrayList<>(); // target data
@@ -141,18 +138,66 @@ public class ScrollingActivity extends AppCompatActivity {
         // the chart.
 
         for (int i = 0; i < cnt; i++) {
-            float val1 = (float) (Math.random() * mul) + min;
+            float val1 = (float) 3.0;
             entries1.add(new RadarEntry(val1));
         }
-
+        float menseki = (float)Float.valueOf(dataFromMain[1]);
         /* 要調整 */
-        float val2 = (float) Float.valueOf(dataFromMain[1]) / 50 * 100;
+        // school
+        float val2 = (float) Float.valueOf(dataFromMain[2]) / menseki;
+        if(val2 > 0.08){
+            val2 = 5;
+        }else if (val2 > 0.06){
+            val2 = 4;
+        }else if(val2 > 0.04){
+            val2 = 3;
+        }else if(val2 > 0.02){
+            val2 = 2;
+        }else{
+            val2 = 1;
+        }
         entries2.add(new RadarEntry(val2));
-        val2 = (float) Float.valueOf(dataFromMain[2]) / 50 * 100;
+        // station
+        val2 = (float) Float.valueOf(dataFromMain[3]) / menseki;
+        if(val2 > 1.0){
+            val2 = 5;
+        }else if (val2 > 0.1){
+            val2 = 4;
+        }else if(val2 > 0.05){
+            val2 = 3;
+        }else if(val2 > 0.01){
+            val2 = 2;
+        }else{
+            val2 = 1;
+        }
         entries2.add(new RadarEntry(val2));
-        val2 = (float) Float.valueOf(dataFromMain[3]) * 100;
+        //crime
+        val2 = (float) Float.valueOf(dataFromMain[4]);
+        if(val2 < 0.1){
+            val2 = 5;
+        }else if (val2 < 0.5){
+            val2 = 4;
+        }else if(val2 < 1.0){
+            val2 = 3;
+        }else if(val2 < 2.0){
+            val2 = 2;
+        }else{
+            val2 = 1;
+        }
         entries2.add(new RadarEntry(val2));
-        val2 = (float) Float.valueOf(dataFromMain[4]) / 500000 * 100;
+        // population
+        val2 = (float) Float.valueOf(dataFromMain[5]) / menseki;
+        if(val2 > 1000){
+            val2 = 5;
+        }else if (val2 > 500){
+            val2 = 4;
+        }else  if(val2 > 100){
+            val2 = 3;
+        }else if(val2 > 50){
+            val2 = 2;
+        }else{
+            val2 = 1;
+        }
         entries2.add(new RadarEntry(val2));
 
 
